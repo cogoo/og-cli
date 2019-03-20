@@ -37,10 +37,7 @@ module.exports = {
 
 function doSetup(setupType: string) {
   return new Promise((res, rej) => {
-    const isProjectRoot =
-      fileService.find('./', {
-        matching: './package.json'
-      }).length > 0;
+    const isProjectRoot = fileService.exists('./package.json');
 
     if (isProjectRoot) {
       switch (setupType) {
