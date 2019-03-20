@@ -1,7 +1,10 @@
 {
   "extends": ["tslint-config-standard", "tslint-config-prettier"],
   "rules": {
-    "strict-type-predicates": false
+    "no-var-keyword": false,
+    "strict-type-predicates": false,
+    "arrow-parens": true,
+    "semicolon": true
   },
   "env": {
     "jest": true
