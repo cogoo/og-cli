@@ -1,7 +1,10 @@
 {
+  "extends": "gts/tsconfig-google.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": false,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
+    "rootDir": ".",
+    "outDir": "build",
     "lib": [
       "es2015",
       "scripthost",
@@ -12,15 +15,11 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": false,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
     "sourceMap": false,
     "inlineSourceMap": true,
-    "outDir": "build",
-    "strict": false,
     "target": "es5"
   },
-  "include": ["src/**/*"],
+
+  "include": ["src/*.ts", "src/**/*.ts", "test/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules"]
 }

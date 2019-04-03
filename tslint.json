@@ -1,11 +1,5 @@
 {
-  "extends": ["tslint-config-standard", "tslint-config-prettier"],
-  "rules": {
-    "no-var-keyword": false,
-    "strict-type-predicates": false,
-    "arrow-parens": true,
-    "semicolon": true
-  },
+  "extends": "gts/tslint.json",
   "env": {
     "jest": true
   }
