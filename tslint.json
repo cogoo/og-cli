@@ -2,5 +2,8 @@
   "extends": "gts/tslint.json",
   "env": {
     "jest": true
+  },
+  "rules": {
+    "only-arrow-functions": false
   }
 }

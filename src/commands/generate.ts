@@ -2,6 +2,7 @@ import { GluegunToolbox } from 'gluegun';
 
 module.exports = {
   name: 'generate',
+  description: 'Generate skeleton code',
   alias: ['g'],
   run: async (toolbox: GluegunToolbox) => {
     const {
@@ -10,11 +11,11 @@ module.exports = {
       print: { info }
     } = toolbox;
 
-    const name = parameters.first;
+    const [framework, templateType, name, path] = parameters.array;
 
     await generate({
-      template: 'model.js.ejs',
-      target: `models/${name}-model.js`,
+      template: `${framework}.${templateType}.ejs`,
+      target: `${path}/${name}.${templateType}.js`,
       props: { name }
     });
 

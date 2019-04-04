@@ -1,10 +1,10 @@
-import { GluegunToolbox } from 'gluegun'
+import { GluegunToolbox } from 'gluegun';
 
 module.exports = {
   name: 'og',
   run: async (toolbox: GluegunToolbox) => {
-    const { print } = toolbox
+    const { print } = toolbox;
 
-    print.info('Welcome to your CLI')
+    print.info('Welcome to your CLI');
   }
-}
+};

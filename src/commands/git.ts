@@ -2,6 +2,7 @@ import { GluegunToolbox } from 'gluegun';
 
 module.exports = {
   name: 'git',
+  description: 'Run not so ordinary git commands',
   run: async (toolbox: GluegunToolbox) => {
     const { print, parameters, prompt, system } = toolbox;
     const gitAction = parameters.first;
@@ -12,7 +13,7 @@ module.exports = {
       return;
     }
 
-    let branchName = parameters.second;
+    const branchName = parameters.second;
 
     switch (gitAction) {
       case 'delete':
@@ -57,7 +58,6 @@ module.exports = {
 
       default:
         print.error('🤐 This action is not currently supported');
-        return;
         break;
     }
   }
