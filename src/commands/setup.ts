@@ -1,12 +1,10 @@
 import { GluegunToolbox } from 'gluegun';
-import { FileService } from '../services/file.service';
-const fileService = new FileService();
 
 module.exports = {
   name: 'setup',
-  alias: ['setup'],
+  description: 'Quick setup of files needed for development',
   run: async (toolbox: GluegunToolbox) => {
-    const { parameters, prompt, print } = toolbox;
+    const { parameters, prompt, print, exists, createFile } = toolbox;
 
     let setupType = parameters.first;
 
@@ -15,7 +13,7 @@ module.exports = {
         type: 'list',
         name: 'answerSetupType',
         message: 'What do you want to setup?',
-        choices: ['npmrc', 'nvmrc']
+        choices: ['npmrc', 'nvmrc'],
       };
 
       const questions = [askSetupType];
@@ -23,39 +21,32 @@ module.exports = {
       setupType = answerSetupType;
     }
 
-    print.info(`Setting up ${setupType}`);
+    print.info(`🙌🏾  Setting up project with ${setupType}`);
     const processSpinner = print.spin(`Generating files`);
-    try {
-      const setupResponse = await doSetup(setupType);
-      processSpinner.succeed('Success');
-      print.info(setupResponse);
-    } catch (error) {
-      processSpinner.fail('Setup failed: ' + error);
-    }
-  }
-};
-
-function doSetup(setupType: string) {
-  return new Promise((res, rej) => {
-    const isProjectRoot = fileService.exists('./package.json');
+    // TODO: run in context of project root
+    const isProjectRoot = exists('./package.json');
 
     if (isProjectRoot) {
       switch (setupType) {
         case 'nvmrc':
-          fileService.createFile('.nvmrc', 'default');
+          createFile('.nvmrc', 'default');
           break;
 
         case 'npmrc':
-          fileService.createFile('.npmrc', 'save-exact=true');
+          createFile('.npmrc', 'save-exact=true');
           break;
 
         default:
-          rej('We dont know how to do that');
-          break;
+          processSpinner.fail('Setup not supported');
+
+          return;
       }
-      res(`Setup of ${setupType} complete`);
     } else {
-      rej('Cant find package.json file in this directory');
+      processSpinner.fail('Cant find package.json file in this directory');
+
+      return;
     }
-  });
-}
+
+    processSpinner.succeed('Success');
+  },
+};
