@@ -1,9 +1,10 @@
-const { build } = require('gluegun');
+import { Toolbox } from 'gluegun/build/types/domain/toolbox';
+import { build } from 'gluegun';
 
 /**
  * Create the cli and kick it off
  */
-async function run(argv: string[]) {
+async function run(argv: string[]): Promise<Toolbox> {
   // create a CLI runtime
   const cli = build()
     .brand('og')
@@ -14,7 +15,7 @@ async function run(argv: string[]) {
     .create();
 
   // and run it
-  const toolbox = await cli.run(argv);
+  const toolbox = (await cli.run(argv)) as Toolbox;
 
   // send it back (for testing, mostly)
   return toolbox;
