@@ -9,7 +9,7 @@ module.exports = {
       prompt,
       print,
       createFile,
-      getProjectRoot,
+      getRootDir,
       cloneRepo,
     } = toolbox;
 
@@ -30,7 +30,7 @@ module.exports = {
 
     print.info(`🙌🏾  Setting up project with ${setupType}`);
     const processSpinner = print.spin(`📦 Generating files`);
-    const rootDir = await getProjectRoot();
+    const rootDir = await getRootDir();
 
     switch (setupType) {
       case 'nvmrc':
