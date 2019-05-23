@@ -1,10 +1,10 @@
-import { GluegunToolbox } from 'gluegun';
+import { GluegunToolbox } from '../models/toolbox';
 
 module.exports = {
   name: 'setup',
   description: 'Quick setup of files needed for development',
   run: async (toolbox: GluegunToolbox) => {
-    const { parameters, prompt, print, exists, createFile } = toolbox;
+    const { parameters, prompt, print, getRootDir, cloneRepo } = toolbox;
 
     let setupType = parameters.first;
 
@@ -13,7 +13,7 @@ module.exports = {
         type: 'list',
         name: 'answerSetupType',
         message: 'What do you want to setup?',
-        choices: ['npmrc', 'nvmrc'],
+        choices: ['styleguide'],
       };
 
       const questions = [askSetupType];
@@ -22,31 +22,26 @@ module.exports = {
     }
 
     print.info(`🙌🏾  Setting up project with ${setupType}`);
-    const processSpinner = print.spin(`Generating files`);
-    // TODO: run in context of project root
-    const isProjectRoot = exists('./package.json');
+    const rootDir = await getRootDir();
 
-    if (isProjectRoot) {
-      switch (setupType) {
-        case 'nvmrc':
-          createFile('.nvmrc', 'default');
-          break;
-
-        case 'npmrc':
-          createFile('.npmrc', 'save-exact=true');
-          break;
-
-        default:
-          processSpinner.fail('Setup not supported');
-
-          return;
-      }
-    } else {
-      processSpinner.fail('Cant find package.json file in this directory');
+    if (!rootDir) {
+      print.info('😔  Root directory cannot be found');
+      print.info('Make sure you\'re in a Node or NPM project ');
 
       return;
     }
 
-    processSpinner.succeed('Success');
+    const confirmProcedure = await prompt.confirm(
+      '🧐  This will overwrite files, will you like to continue?'
+    );
+
+    if (!confirmProcedure) {
+      return;
+    }
+
+    const processSpinner = print.spin(`📦 Generating files`);
+
+    await cloneRepo('cogoo/styleguide-base', rootDir);
+    processSpinner.succeed('Successfully setup styleguide');
   },
 };

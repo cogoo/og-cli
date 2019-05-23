@@ -1,4 +1,4 @@
-import { GluegunToolbox } from 'gluegun';
+import { GluegunToolbox } from '../models/toolbox';
 
 module.exports = {
   name: 'generate',
@@ -8,17 +8,31 @@ module.exports = {
     const {
       parameters,
       template: { generate },
-      print: { info }
+      print: { info },
+      getRootDir,
     } = toolbox;
 
-    const [framework, templateType, name, path] = parameters.array;
+    const [templateType, path] = parameters.array;
+    let template, target, props;
 
+    switch (templateType.toLowerCase()) {
+      case 'readme':
+        template = 'README.md.ejs';
+        target = `${await getRootDir()}/README.md`;
+        props = { projectTitle: 'Test' };
+        break;
+
+      default:
+        break;
+    }
+
+    // This is dependent on what you are generating
     await generate({
-      template: `${framework}.${templateType}.ejs`,
-      target: `${path}/${name}.${templateType}.js`,
-      props: { name }
+      template,
+      target,
+      props,
     });
 
-    info(`Generated file at models/${name}-model.js`);
-  }
+    // info(`Generated file at models/${name}-model.js`);
+  },
 };
