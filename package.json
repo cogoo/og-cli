@@ -18,9 +18,9 @@
     "check": "gts check",
     "clean": "gts clean",
     "fix": "gts fix",
-    "prepare": "npm run compile",
-    "pretest": "npm run compile",
-    "posttest": "npm run check"
+    "prepare": "yarn compile",
+    "pretest": "yarn compile",
+    "posttest": "yarn check"
   },
   "files": [
     "tsconfig.json",

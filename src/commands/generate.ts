@@ -1,4 +1,4 @@
-import { GluegunToolbox } from 'gluegun';
+import { GluegunToolbox } from '../models/toolbox';
 
 module.exports = {
   name: 'generate',
