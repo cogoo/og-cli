@@ -8,7 +8,7 @@ module.exports = {
     const {
       parameters,
       template: { generate },
-      print: { info }
+      print: { info },
     } = toolbox;
 
     const [framework, templateType, name, path] = parameters.array;
@@ -16,9 +16,9 @@ module.exports = {
     await generate({
       template: `${framework}.${templateType}.ejs`,
       target: `${path}/${name}.${templateType}.js`,
-      props: { name }
+      props: { name },
     });
 
     info(`Generated file at models/${name}-model.js`);
-  }
+  },
 };
