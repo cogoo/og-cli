@@ -1,0 +1,26 @@
+{
+  "extends": "gts/tsconfig-google.json",
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "rootDir": ".",
+    "outDir": "build",
+    "lib": [
+      "es2015",
+      "scripthost",
+      "es2015.promise",
+      "es2015.generator",
+      "es2015.iterable",
+      "dom"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "inlineSourceMap": true,
+    "target": "es5",
+    "noImplicitAny": false
+  },
+
+  "include": ["src/*.ts", "src/**/*.ts", "test/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules"]
+}
