@@ -62,61 +62,68 @@ module.exports = {
 
         break;
 
-      // case 'prune':
-      //   {
-      //     const branchName = parameters.second;
-      //     if (!branchName) {
-      //       print.error(
-      //         'For this type of action, you need to specify which branches to prune'
-      //       );
-      //       print.info('💡 Try `og git prune <branch_name>`');
+      case 'prune':
+        {
+          const commandToRun = `git b --list 'task/*' 'bug-fix/*' --merged`;
+          const branchesToDelete = await system.run(commandToRun, {
+            trim: true,
+          });
 
-      //       return;
-      //     }
+          if (branchesToDelete.trim().length < 1) {
+            print.info('😇 No branches to prune');
 
-      //     const currentBranch = await system.run(
-      //       `git rev-parse --abbrev-ref HEAD`,
-      //       {
-      //         trim: true,
-      //       }
-      //     );
+            return;
+          }
 
-      //     let branchesToDelete = await system.run(
-      //       `git b --merged=${branchName}`,
-      //       {
-      //         trim: true,
-      //       }
-      //     );
+          if (branchesToDelete.includes('*')) {
+            print.info('😔 You cannot prune a branch that you are currently on');
 
-      //     branchesToDelete = branchesToDelete
-      //       .replace('*', '')
-      //       .replace(currentBranch, '');
+            return;
+          }
 
-      //     if (branchesToDelete.includes('*')) {
-      //       print.info('😔 You cannot prune a branch that you are currently on');
+          print.info(`These branches will be deleted: \n ${branchesToDelete}`);
+          const confirmDelete = await prompt.confirm(
+            '🧐  Do you want to continue?'
+          );
 
-      //       return;
-      //     }
+          if (confirmDelete) {
+            const deleteBranches = await system.run(
+              `git b -D \`${commandToRun}\``,
+              {
+                trim: true,
+              }
+            );
+            print.info(`${deleteBranches} \n\n 🤫  branches deleted`);
 
-      //     print.info(`These branches will be deleted: \n ${branchesToDelete}`);
-      //     const confirmDelete = await prompt.confirm(
-      //       '🧐  Do you want to continue?'
-      //     );
+            return;
+          }
+        }
 
-      //     // if (confirmDelete) {
-      //     //   const deleteBranches = await system.run(
-      //     //     `git b -D \`git b --list --merged\``,
-      //     //     {
-      //     //       trim: true
-      //     //     }
-      //     //   );
-      //     //   print.info(`${deleteBranches} \n\n 🤫  branches deleted`);
+        break;
 
-      //     //   return;
-      //     // }
-      //   }
+      case 'ahead':
+        {
+          const branchName = parameters.second;
+          if (!branchName) {
+            print.error(
+              'For this type of action, you need to specify which branch to compare against'
+            );
+            print.info('💡 Try `og git ahead <branch_name>`');
 
-      //   break;
+            return;
+          }
+
+          const count = await system.run(
+            `git rev-list ${branchName}.. --count`,
+            {
+              trim: true,
+            }
+          );
+
+          print.info(count);
+        }
+
+        break;
 
       default:
         print.error('🤐 This action is not currently supported');
