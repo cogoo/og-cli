@@ -62,45 +62,6 @@ module.exports = {
 
         break;
 
-      case 'prune':
-        {
-          const commandToRun = `git b --list 'task/*' 'bug-fix/*' --merged`;
-          const branchesToDelete = await system.run(commandToRun, {
-            trim: true,
-          });
-
-          if (branchesToDelete.trim().length < 1) {
-            print.info('😇 No branches to prune');
-
-            return;
-          }
-
-          if (branchesToDelete.includes('*')) {
-            print.info('😔 You cannot prune a branch that you are currently on');
-
-            return;
-          }
-
-          print.info(`These branches will be deleted: \n ${branchesToDelete}`);
-          const confirmDelete = await prompt.confirm(
-            '🧐  Do you want to continue?'
-          );
-
-          if (confirmDelete) {
-            const deleteBranches = await system.run(
-              `git b -D \`${commandToRun}\``,
-              {
-                trim: true,
-              }
-            );
-            print.info(`${deleteBranches} \n\n 🤫  branches deleted`);
-
-            return;
-          }
-        }
-
-        break;
-
       case 'ahead':
         {
           const branchName = parameters.second;
