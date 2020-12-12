@@ -43,7 +43,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.12",
-    "@types/prettier": "^1.16.1",
+    "@types/prettier": "^2.1.5",
     "gts": "^3.0.3",
     "jest": "^23.6.0",
     "prettier": "^1.12.1",
