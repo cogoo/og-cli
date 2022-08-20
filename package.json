@@ -36,8 +36,8 @@
     "degit": "2.8.4",
     "git-cz": "4.9.0",
     "gluegun": "^2.1.0",
+    "ts-node": "^10.9.1",
     "pkg-dir": "7.0.0",
-    "ts-node": "^9.1.1",
     "typescript": "4.3.5"
   },
   "devDependencies": {
