@@ -44,7 +44,7 @@
     "@types/jest": "^23.3.10",
     "@types/node": "^18.7.8",
     "@types/prettier": "^1.16.1",
-    "gts": "^3.0.3",
+    "gts": "^3.1.0",
     "jest": "^23.6.0",
     "prettier": "^2.3.2",
     "ts-jest": "^23.10.5",
